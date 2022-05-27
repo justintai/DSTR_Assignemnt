@@ -299,9 +299,19 @@ public:
 }subjectdata;
 
 // functions
+bool isDateNumber(const string& str) {
+	for (int i = 0; i < str.length(); i++) {
+		if (i != 4 && i != 7) {
+			if (isdigit(str[i]) == 0) return false;
+		}
+	}
+	return true;
+}
+
 void MainMenu_HR() {
 	system("CLS");
 	int choice;
+	bool flag = true;
 	
 	cout << "============================================== \n";
 	cout << "                     MENU\n";
@@ -336,8 +346,20 @@ void MainMenu_HR() {
 			cin >> data.TutorID;
 			cout << "Enter tutor name: ";
 			cin >> data.Name;
-			cout << "Enter join date (YYYY-MM-DD): ";
-			cin >> date;
+			do {
+				cout << "Enter join date (YYYY-MM-DD): ";
+				cin >> date;
+				if (date.length() != 10 || !isDateNumber(date) || stoi(date.substr(0, 4)) - 1900 < 0 || 
+					!(stoi(date.substr(5, 7)) - 1 >= 0 && stoi(date.substr(5, 7)) - 1 < 12) ||
+					!(stoi(date.substr(8, 10)) > 0 && stoi(date.substr(8, 10)) <= 31)) {
+					cout << "Invalid format try again!" << endl;
+					flag = true;
+				}
+				else {
+					flag = false;
+				}
+			} while (flag);
+			
 			data.Join_Date = toTimeStamp(date);
 			cout << "Enter hourly rate: ";
 			cin >> data.Hourly_Rate;
