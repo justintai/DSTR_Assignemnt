@@ -3,8 +3,10 @@
 #include <string>
 #include <time.h>
 #include <ctime>
+#include <chrono>
 #define _CRT_SECURE_NO_WARNINGS
 using namespace std;
+using namespace std::chrono;
 
 // declare functions
 void MainMenu_HR();
@@ -210,6 +212,7 @@ public:
 		return name;
 	}
 
+	// normal display
 	void display() {
 		int page = 1, start = 0, end = 10, limit = 10, pages = 1;
 		const char separator = ' ';
@@ -276,6 +279,122 @@ public:
 
 		if (page == 0)
 			return;
+	}
+
+	void display(Tutors* temp, int len) {
+		int page = 1, start = 0, end = 10, limit = 10, pages = 1;
+		const char separator = ' ';
+
+		if (len > 10) {
+			if (len % 10 != 0) {
+				pages = len / 10 + 1;
+			}
+			else {
+				pages = len / 10;
+			}
+		}
+
+		string w1 = "Tutor ID";
+		string w2 = "Name";
+		string w3 = "Hourly Rate";
+		string w4 = "Phone";
+		string w5 = "Centre";
+		string w6 = "Subject";
+		string w7 = "Rating";
+
+		do {
+			cout << string(108, '=') << endl;
+			cout << "| " << w1 << setw(11 - w1.length()) << setfill(separator)
+				<< "| " << w2 << setw(20 - w2.length()) << setfill(separator)
+				<< "| " << w3 << setw(15 - w3.length()) << setfill(separator)
+				<< "| " << w4 << setw(15 - w4.length()) << setfill(separator)
+				<< "| " << w5 << setw(15 - w5.length()) << setfill(separator)
+				<< "| " << w6 << setw(20 - w6.length()) << setfill(separator)
+				<< "| " << w7 << setw(10 - w7.length()) << setfill(separator) << "|" << endl;
+
+			start = limit * page - limit;
+
+			if (pages == 1) {
+				end = len % limit;
+			}
+			else if (page * limit - len > 0) {
+				end = len % limit + (page - 1) * limit;
+			}
+			else {
+				end = limit * page;
+			}
+
+			for (int i = start; i < end; i++) {
+				cout << "| " << temp[i].TutorID << setw(11 - to_string(temp[i].TutorID).length()) << setfill(separator)
+					<< "| " << temp[i].Name << setw(20 - temp[i].Name.length()) << setfill(separator)
+					<< "| " << fixed << setprecision(2) << temp[i].Hourly_Rate
+					<< setw(15 - to_string(temp[i].Hourly_Rate).substr(0, 6).length()) << setfill(separator)
+					<< "| " << temp[i].Phone << setw(15 - to_string(temp[i].Phone).length()) << setfill(separator)
+					<< "| " << temp[i].Centre_Code << setw(15 - to_string(temp[i].Centre_Code).length()) << setfill(separator)
+					<< "| " << temp[i].Subject_Code << setw(20 - to_string(temp[i].Centre_Code).length()) << setfill(separator)
+					<< "| " << fixed << setprecision(2) << temp[i].Rating << setw(10 - to_string(temp[i].Rating).substr(0, 4).length())
+					<< setfill(separator) << "|" << endl;
+			}
+
+			page = 0;
+			if (pages > 1) {
+				cout << endl << "Enter the page number (1 ~ " << pages << ", 0 - Exit): ";
+				cin >> page;
+			}
+
+		} while (page > 0 && page <= pages);
+
+		if (page == 0)
+			return;
+	}
+
+	void LinearSearch(int mode) {
+		auto starttime = high_resolution_clock::now();
+		// mode: 1 - search tutor id, 2 - search performance
+		Tutors* result = NULL;
+		if (mode == 1) {
+			int search, j = 0, m = 0;
+			cout << "Enter tutor ID: ";
+			cin >> search;
+
+			for (int i = 0; i < length; i++) {
+				if (tutors[i].TutorID == search) {
+					j++;
+					result = new Tutors[j];
+					result[m].TutorID = tutors[i].TutorID;
+					result[m].Name = tutors[i].Name;
+					result[m].Join_Date = tutors[i].Join_Date;
+					result[m].Term_Date = tutors[i].Term_Date;
+					result[m].Hourly_Rate = tutors[i].Hourly_Rate;
+					result[m].Phone = tutors[i].Phone;
+					result[m].Address = tutors[i].Address;
+					result[m].Centre_Code = tutors[i].Centre_Code;
+					result[m].Subject_Code = tutors[i].Subject_Code;
+					result[m].Rating = tutors[i].Rating;
+					m++;
+				}
+			}
+
+			system("CLS");
+			auto stoptime = high_resolution_clock::now();
+			auto duration = duration_cast<microseconds>(stoptime - starttime);
+			cout << "Time Used:" << duration.count() << " microseconds" << endl;
+
+			if (j != 0) {
+				display(result, j);
+			}
+			else {
+				cout << "The tutors ID not found!" << endl;
+			}
+			return;
+		}
+		else if(mode == 2){
+
+		}
+	}
+
+	void BinarySearch(int mode) {
+
 	}
 }tutorsdata;
 
@@ -407,8 +526,9 @@ void MainMenu_HR() {
 		} while (choice == 1);
 	}
 		break;
-	case 2:
-		cout << " 2. Display All Tutor Records\n";
+	case 2: {
+		cout << "Display All Tutor Records\n";
+		cout << "----------------------------------------" << endl;
 		tutorsdata.display();
 		do {
 			cout << endl << "Enter 0 to main menu: ";
@@ -417,28 +537,55 @@ void MainMenu_HR() {
 
 		if (choice == 0)
 			MainMenu_HR();
+	}
 		break;
-	case 3:
-		cout << " 3. Search Tutor by Tutor ID\n";
+	case 3: {
+		int method;
+		system("CLS");
+		cout << "Search Tutor by Tutor ID\n";
+		cout << "----------------------------------------" << endl;
+		cout << "What kind of searching method you want to use?" << endl;
+		cout << " 1. Linear Search" << endl;
+		cout << " 2. Binary Search" << endl;
+		do {
+			cout << "Enter the method: ";
+			cin >> method;
+		} while (method != 1 && method != 2);
+
+		if(method == 1)
+			tutorsdata.LinearSearch(1);
+		else
+			tutorsdata.BinarySearch(1);
+
+		do {
+			cout << endl << "Enter 0 to main menu: ";
+			cin >> choice;
+		} while (choice != 0);
+
+		if (choice == 0)
+			MainMenu_HR();
+	}
 		break;
 	case 4:
-		cout << " 4. Search Tutors by Overall Performance\n";
+		cout << "Search Tutors by Overall Performance\n";
+		cout << "----------------------------------------" << endl;
 		break;
 	case 5:
-		cout << " 5. Sort by Tutors ID\n";
+		cout << "Sort by Tutors ID\n";
+		cout << "----------------------------------------" << endl;
 		
 		break;
 	case 6:
-		cout << " 6. Sort by Tutors Hourly Pay Rater\n";
-		
+		cout << "Sort by Tutors Hourly Pay Rater\n";
+		cout << "----------------------------------------" << endl;
 		break;
 	case 7:
-		cout << " 7. Sort by Tutors Overall Performance\n";
-		
+		cout << "Sort by Tutors Overall Performance\n";
+		cout << "----------------------------------------" << endl;
 		break;
 	case 8:
-		cout << " 8. Modify Tutor Record\n";
-		
+		cout << "Modify Tutor Record\n";
+		cout << "----------------------------------------" << endl;
 		break;
 	case 9:
 		cout << " 9. Delete Tutor Record\n";
