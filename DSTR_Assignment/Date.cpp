@@ -1,24 +1,24 @@
-#include <string>
-#include <time.h>
-#include <ctime>
-#define _CRT_SECURE_NO_WARNINGS
-using namespace std;
-
-time_t toTimeStamp(string date) {
-    struct tm t;
-    time_t t_of_day;
-
-    t.tm_year = stoi(date.substr(0, 4)) - 1900;  // Year - 1900
-    t.tm_mon = stoi(date.substr(5, 7)) - 1;           // Month, where 0 = jan
-    t.tm_mday = stoi(date.substr(8, 10));          // Day of the month
-    t.tm_hour = 0;
-    t.tm_min = 0;
-    t.tm_sec = 0;
-    t.tm_isdst = 0;        // Is DST on? 1 = yes, 0 = no, -1 = unknown
-    t_of_day = mktime(&t);
-
-    return t_of_day;
-}
+//#include <string>
+//#include <time.h>
+//#include <ctime>
+//#define _CRT_SECURE_NO_WARNINGS
+//using namespace std;
+//
+//time_t toTimeStamp(string date) {
+//    struct tm t;
+//    time_t t_of_day;
+//
+//    t.tm_year = stoi(date.substr(0, 4)) - 1900;  // Year - 1900
+//    t.tm_mon = stoi(date.substr(5, 7)) - 1;           // Month, where 0 = jan
+//    t.tm_mday = stoi(date.substr(8, 10));          // Day of the month
+//    t.tm_hour = 0;
+//    t.tm_min = 0;
+//    t.tm_sec = 0;
+//    t.tm_isdst = 0;        // Is DST on? 1 = yes, 0 = no, -1 = unknown
+//    t_of_day = mktime(&t);
+//
+//    return t_of_day;
+//}
 
 //int main()
 //{
