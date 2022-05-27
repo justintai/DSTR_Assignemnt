@@ -142,8 +142,9 @@ public:
 	TutorsData() {
 		int size = 2;
 		tutors = new Tutors[size];
-		Tutors data[2] = { {1, "James", 1650988800, 0, 100, 01234567, "Jalan Teknologi No. 1", 2, 1, 0},
-						{2, "Louis", 1651075200, 0, 200, 07654321, "Jalan Inovasi No. 1", 2, 1, 0} };
+		Tutors data[2] = { {1, "James", 1650988800, 0, 100, 01234567, "Jalan Teknologi No. 1", 2, 1, 2.5},
+						{2, "Louis", 1651075200, 0, 200, 07654321, "Jalan Inovasi No. 1", 2, 1, 5}
+		};
 
 		for (int i = 0; i < size; i++) {
 			tutors[i].TutorID = data[i].TutorID;
@@ -210,7 +211,6 @@ public:
 	}
 
 	void display() {
-		system("CLS");
 		int page = 1, start = 0, end = 10, limit = 10, pages = 1;
 		const char separator = ' ';
 
@@ -223,38 +223,58 @@ public:
 			}
 		}
 
+		string w1 = "Tutor ID";
+		string w2 = "Name";
+		string w3 = "Hourly Rate";
+		string w4 = "Phone";
+		string w5 = "Centre";
+		string w6 = "Subject";
+		string w7 = "Rating";
+
 		do {
-			cout << "======================================================================================" << endl;
-			cout << "| Tutor ID" << setw(5) << "| Name" << setw(20) << "| Hourly Rate" << setw(6) << "| Phone" << setw(12)
-				<< "| Centre" << setw(15) << "| Subject" << setw(15) << "| Rating" << setw(7) << "|" << endl;
+			system("CLS");
+			cout << string(108, '=') << endl;
+			cout << "| " << w1 << setw(11 - w1.length()) << setfill(separator) 
+				<< "| " << w2 << setw(20 - w2.length()) << setfill(separator)
+				<< "| " << w3 << setw(15 - w3.length()) << setfill(separator)
+				<< "| " << w4 << setw(15 - w4.length()) << setfill(separator)
+				<< "| " << w5 << setw(15 - w5.length()) << setfill(separator)
+				<< "| " << w6 << setw(20 - w6.length()) << setfill(separator)
+				<< "| " << w7 << setw(10 - w7.length()) << setfill(separator) << "|" << endl;
 
 			start = limit * page - limit;
 
-			if (pages == 1 || page * limit - length != 0) {
+			if (pages == 1) {
 				end = length % limit;
+			}
+			else if (page * limit - length > 0) {
+				end = length % limit + (page - 1) * limit;
 			}
 			else {
 				end = limit * page;
 			}
 			
 			for (int i = start; i < end; i++) {
-				cout << "| " << tutors[i].TutorID << setw(5) << setfill(separator)
-					<< "| " << tutors[i].Name << setw(20) << setfill(separator)
-					<< "| " << tutors[i].Hourly_Rate << setw(6) << setfill(separator)
-					<< "| " << tutors[i].Phone << setw(12) << setfill(separator)
-					<< "| " << tutors[i].Centre_Code << setw(15) << setfill(separator)
-					<< "| " << tutors[i].Subject_Code << setw(15) << setfill(separator)
-					<< "| " << tutors[i].Rating << setw(7) << setfill(separator) << "|" << endl;
+				cout << "| " << tutors[i].TutorID << setw(11 - to_string(tutors[i].TutorID).length()) << setfill(separator)
+					<< "| " << tutors[i].Name << setw(20 - tutors[i].Name.length()) << setfill(separator)
+					<< "| " << fixed << setprecision(2) << tutors[i].Hourly_Rate 
+					<< setw(15 - to_string(tutors[i].Hourly_Rate).substr(0, 6).length()) << setfill(separator)
+					<< "| " << tutors[i].Phone << setw(15 - to_string(tutors[i].Phone).length()) << setfill(separator)
+					<< "| " << tutors[i].Centre_Code << setw(15 - to_string(tutors[i].Centre_Code).length()) << setfill(separator)
+					<< "| " << tutors[i].Subject_Code << setw(20 - to_string(tutors[i].Centre_Code).length()) << setfill(separator)
+					<< "| " << fixed << setprecision(2) << tutors[i].Rating << setw(10 - to_string(tutors[i].Rating).substr(0, 4).length())
+					<< setfill(separator) << "|" << endl;
 			}
 
+			page = 0;
 			if (pages > 1) {
-				cout << "Enter the page number (1 ~ " << pages << ", 0 - Exit): ";
+				cout << endl << "Enter the page number (1 ~ " << pages << ", 0 - Exit): ";
 				cin >> page;
 			}
 
-		} while (page < 0 && page > pages);
+		} while (page > 0 && page <= pages);
 
-		if (page)
+		if (page == 0)
 			return;
 	}
 }tutorsdata;
@@ -328,7 +348,7 @@ void MainMenu_HR() {
 	cout << " 10. Add New User\n";
 	cout << " 11. Add New Centre\n";
 	cout << " 12. Add New Subject\n";
-	cout << " 0. Exit\n";
+	cout << " 0. Exit\n" << endl;
 	do {
 		cout << "What function your want to process? ";
 		cin >> choice;
@@ -378,7 +398,7 @@ void MainMenu_HR() {
 
 			tutorsdata.addTutorData(data);
 			do {
-				cout<< endl << "Enter 1 to repit again 0 to EXIT: ";
+				cout<< endl << "Enter 1 to repeat again 0 to EXIT: ";
 				cin >> choice;
 			} while (choice < 0 || choice > 1);
 
@@ -391,7 +411,7 @@ void MainMenu_HR() {
 		cout << " 2. Display All Tutor Records\n";
 		tutorsdata.display();
 		do {
-			cout << endl << "Enter 0 to go back: ";
+			cout << endl << "Enter 0 to main menu: ";
 			cin >> choice;
 		} while (choice != 0);
 
