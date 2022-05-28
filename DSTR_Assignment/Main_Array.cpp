@@ -965,7 +965,172 @@ public:
 	}
 
 	void InsertionSort(int mode) {
+		// mode: 1 - sort by tutor id, 2 - sort by hourly rate, 3 - sort by overall performance
+		auto starttime = high_resolution_clock::now();
+		Tutors* result = NULL;
 
+		if (mode == 1) {
+			Tutors temp;
+			int j;
+			tempdata = tutors;
+
+			for (int i = 1; i < length; i++) {
+				temp.TutorID = tempdata[i].TutorID;
+				temp.Name = tempdata[i].Name;
+				temp.Join_Date = tempdata[i].Join_Date;
+				temp.Term_Date = tempdata[i].Term_Date;
+				temp.Hourly_Rate = tempdata[i].Hourly_Rate;
+				temp.Phone = tempdata[i].Phone;
+				temp.Address = tempdata[i].Address;
+				temp.Centre_Code = tempdata[i].Centre_Code;
+				temp.Subject_Code = tempdata[i].Subject_Code;
+				temp.Rating = tempdata[i].Rating;
+				temp.Rating_No = tempdata[i].Rating_No;
+
+				j = i - 1;
+
+				while (j >= 0 && tempdata[j].TutorID > temp.TutorID) {
+					tempdata[j + 1].TutorID = tempdata[j].TutorID;
+					tempdata[j + 1].Name = tempdata[j].Name;
+					tempdata[j + 1].Join_Date = tempdata[j].Join_Date;
+					tempdata[j + 1].Term_Date = tempdata[j].Term_Date;
+					tempdata[j + 1].Hourly_Rate = tempdata[j].Hourly_Rate;
+					tempdata[j + 1].Phone = tempdata[j].Phone;
+					tempdata[j + 1].Address = tempdata[j].Address;
+					tempdata[j + 1].Centre_Code = tempdata[j].Centre_Code;
+					tempdata[j + 1].Subject_Code = tempdata[j].Subject_Code;
+					tempdata[j + 1].Rating = tempdata[j].Rating;
+					tempdata[j + 1].Rating_No = tempdata[j].Rating_No;
+
+					j--;
+				}
+				tempdata[j + 1].TutorID = temp.TutorID;
+				tempdata[j + 1].Name = temp.Name;
+				tempdata[j + 1].Join_Date = temp.Join_Date;
+				tempdata[j + 1].Term_Date = temp.Term_Date;
+				tempdata[j + 1].Hourly_Rate = temp.Hourly_Rate;
+				tempdata[j + 1].Phone = temp.Phone;
+				tempdata[j + 1].Address = temp.Address;
+				tempdata[j + 1].Centre_Code = temp.Centre_Code;
+				tempdata[j + 1].Subject_Code = temp.Subject_Code;
+				tempdata[j + 1].Rating = temp.Rating;
+				tempdata[j + 1].Rating_No = temp.Rating_No;
+			}
+			system("CLS");
+			auto stoptime = high_resolution_clock::now();
+			auto duration = duration_cast<microseconds>(stoptime - starttime);
+			cout << "Time Used:" << duration.count() << " microseconds" << endl;
+
+			display(1);
+		}
+		else if (mode == 2) {
+			Tutors temp;
+			int j;
+			tempdata = tutors;
+
+			for (int i = 1; i < length; i++) {
+				temp.TutorID = tempdata[i].TutorID;
+				temp.Name = tempdata[i].Name;
+				temp.Join_Date = tempdata[i].Join_Date;
+				temp.Term_Date = tempdata[i].Term_Date;
+				temp.Hourly_Rate = tempdata[i].Hourly_Rate;
+				temp.Phone = tempdata[i].Phone;
+				temp.Address = tempdata[i].Address;
+				temp.Centre_Code = tempdata[i].Centre_Code;
+				temp.Subject_Code = tempdata[i].Subject_Code;
+				temp.Rating = tempdata[i].Rating;
+				temp.Rating_No = tempdata[i].Rating_No;
+
+				j = i - 1;
+
+				while (j >= 0 && tempdata[j].Hourly_Rate > temp.Hourly_Rate) {
+					tempdata[j + 1].TutorID = tempdata[j].TutorID;
+					tempdata[j + 1].Name = tempdata[j].Name;
+					tempdata[j + 1].Join_Date = tempdata[j].Join_Date;
+					tempdata[j + 1].Term_Date = tempdata[j].Term_Date;
+					tempdata[j + 1].Hourly_Rate = tempdata[j].Hourly_Rate;
+					tempdata[j + 1].Phone = tempdata[j].Phone;
+					tempdata[j + 1].Address = tempdata[j].Address;
+					tempdata[j + 1].Centre_Code = tempdata[j].Centre_Code;
+					tempdata[j + 1].Subject_Code = tempdata[j].Subject_Code;
+					tempdata[j + 1].Rating = tempdata[j].Rating;
+					tempdata[j + 1].Rating_No = tempdata[j].Rating_No;
+
+					j--;
+				}
+				tempdata[j + 1].TutorID = temp.TutorID;
+				tempdata[j + 1].Name = temp.Name;
+				tempdata[j + 1].Join_Date = temp.Join_Date;
+				tempdata[j + 1].Term_Date = temp.Term_Date;
+				tempdata[j + 1].Hourly_Rate = temp.Hourly_Rate;
+				tempdata[j + 1].Phone = temp.Phone;
+				tempdata[j + 1].Address = temp.Address;
+				tempdata[j + 1].Centre_Code = temp.Centre_Code;
+				tempdata[j + 1].Subject_Code = temp.Subject_Code;
+				tempdata[j + 1].Rating = temp.Rating;
+				tempdata[j + 1].Rating_No = temp.Rating_No;
+			}
+			system("CLS");
+			auto stoptime = high_resolution_clock::now();
+			auto duration = duration_cast<microseconds>(stoptime - starttime);
+			cout << "Time Used:" << duration.count() << " microseconds" << endl;
+
+			display(1);
+		}
+		else if (mode == 3) {
+			Tutors temp;
+			int j;
+			tempdata = tutors;
+
+			for (int i = 1; i < length; i++) {
+				temp.TutorID = tempdata[i].TutorID;
+				temp.Name = tempdata[i].Name;
+				temp.Join_Date = tempdata[i].Join_Date;
+				temp.Term_Date = tempdata[i].Term_Date;
+				temp.Hourly_Rate = tempdata[i].Hourly_Rate;
+				temp.Phone = tempdata[i].Phone;
+				temp.Address = tempdata[i].Address;
+				temp.Centre_Code = tempdata[i].Centre_Code;
+				temp.Subject_Code = tempdata[i].Subject_Code;
+				temp.Rating = tempdata[i].Rating;
+				temp.Rating_No = tempdata[i].Rating_No;
+
+				j = i - 1;
+
+				while (j >= 0 && tempdata[j].Rating > temp.Rating) {
+					tempdata[j + 1].TutorID = tempdata[j].TutorID;
+					tempdata[j + 1].Name = tempdata[j].Name;
+					tempdata[j + 1].Join_Date = tempdata[j].Join_Date;
+					tempdata[j + 1].Term_Date = tempdata[j].Term_Date;
+					tempdata[j + 1].Hourly_Rate = tempdata[j].Hourly_Rate;
+					tempdata[j + 1].Phone = tempdata[j].Phone;
+					tempdata[j + 1].Address = tempdata[j].Address;
+					tempdata[j + 1].Centre_Code = tempdata[j].Centre_Code;
+					tempdata[j + 1].Subject_Code = tempdata[j].Subject_Code;
+					tempdata[j + 1].Rating = tempdata[j].Rating;
+					tempdata[j + 1].Rating_No = tempdata[j].Rating_No;
+
+					j--;
+				}
+				tempdata[j + 1].TutorID = temp.TutorID;
+				tempdata[j + 1].Name = temp.Name;
+				tempdata[j + 1].Join_Date = temp.Join_Date;
+				tempdata[j + 1].Term_Date = temp.Term_Date;
+				tempdata[j + 1].Hourly_Rate = temp.Hourly_Rate;
+				tempdata[j + 1].Phone = temp.Phone;
+				tempdata[j + 1].Address = temp.Address;
+				tempdata[j + 1].Centre_Code = temp.Centre_Code;
+				tempdata[j + 1].Subject_Code = temp.Subject_Code;
+				tempdata[j + 1].Rating = temp.Rating;
+				tempdata[j + 1].Rating_No = temp.Rating_No;
+			}
+			system("CLS");
+			auto stoptime = high_resolution_clock::now();
+			auto duration = duration_cast<microseconds>(stoptime - starttime);
+			cout << "Time Used:" << duration.count() << " microseconds" << endl;
+
+			display(1);
+		}
 	}
 
 }tutorsdata;
@@ -1207,24 +1372,30 @@ void MainMenu_HR() {
 			MainMenu_HR();
 	}
 		break;
-	case 8:
+	case 8: {
 		cout << "Modify Tutor Record\n";
 		cout << "----------------------------------------" << endl;
+	}
 		break;
-	case 9:
+	case 9: {
 		cout << " 9. Delete Tutor Record\n";
-		
+		cout << "----------------------------------------" << endl;
+	}
 		break;
-	case 10:
+	case 10: {
 		cout << " 10. Add New User\n";
-		
+		cout << "----------------------------------------" << endl;
+	}
 		break;
-	case 11:
+	case 11: {
 		cout << " 11. Add New Centre\n";
-		
-		break;
-	case 12:
+		cout << "----------------------------------------" << endl;
+	}
+		break; 
+	case 12: {
 		cout << " 12. Add New Subject\n";
+		cout << "----------------------------------------" << endl;
+	}
 		break;
 	case 0:
 		Login();
