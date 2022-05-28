@@ -233,10 +233,11 @@ class TutorsData {
 
 public:
 	TutorsData() {
-		int size = 2;
+		int size = 3;
 		tutors = new Tutors[size];
-		Tutors data[2] = { {1, "James", 1650988800, 0, 100, 01234567, "Jalan Teknologi No. 1", 2, 1, 5, 1},
-						{2, "Louis", 1651075200, 0, 200, 07654321, "Jalan Inovasi No. 1", 2, 1, 3.5, 1}
+		Tutors data[3] = { {1, "James", 1650988800, 0, 100, 01234567, "Jalan Teknologi No. 1", 2, 1, 5, 1},
+						{2, "Louis", 1651075200, 0, 200, 07654321, "Jalan Inovasi No. 1", 2, 1, 3.5, 1},
+						{3, "Andrew", 1651075200, 0, 200, 07654321, "Jalan Inovasi No. 1", 2, 1, 3.5, 1}
 		};
 
 		for (int i = 0; i < size; i++) {
@@ -253,6 +254,8 @@ public:
 			tutors[i].Rating_No = data[i].Rating_No;
 		}
 		length = size;
+
+		BubbleSort(0);
 	}
 
 	Tutors* getTutorData() {
@@ -297,6 +300,7 @@ public:
 		}
 
 		tutors = newData;
+		BubbleSort(0);
 		cout << "Add new data success!" << endl;
 	}
 
@@ -308,6 +312,9 @@ public:
 		const char separator = ' ';
 		Tutors* dump = (mode == 1) ? tempdata : tutors;
 
+		if (mode == 0)
+			BubbleSort(0);
+
 		if (length > 10) {
 			if (length % 10 != 0) {
 				pages = length / 10 + 1;
@@ -318,7 +325,9 @@ public:
 		}
 
 		do {
-			system("CLS");
+			if (mode == 0) {
+				system("CLS");
+			}
 			cout << string(ts, '=') << endl;
 			cout << "| " << w1 << setw(s1 - w1.length()) << setfill(separator) 
 				<< "| " << w2 << setw(s2 - w2.length()) << setfill(separator)
@@ -749,16 +758,209 @@ public:
 		Tutors* result = NULL;
 
 		if (mode == 0) {
+			Tutors temp;
+			for (int i = 0; i < length; i++) {
+				for (int j = 0; j < length - i - 1; j++) {
+					if (tutors[j].Name > tutors[j + 1].Name) {
+						// swaping
+						temp.TutorID = tutors[j].TutorID;
+						temp.Name = tutors[j].Name;
+						temp.Join_Date = tutors[j].Join_Date;
+						temp.Term_Date = tutors[j].Term_Date;
+						temp.Hourly_Rate = tutors[j].Hourly_Rate;
+						temp.Phone = tutors[j].Phone;
+						temp.Address = tutors[j].Address;
+						temp.Centre_Code = tutors[j].Centre_Code;
+						temp.Subject_Code = tutors[j].Subject_Code;
+						temp.Rating = tutors[j].Rating;
+						temp.Rating_No = tutors[j].Rating_No;
 
+						tutors[j].TutorID = tutors[j + 1].TutorID;
+						tutors[j].Name = tutors[j + 1].Name;
+						tutors[j].Join_Date = tutors[j + 1].Join_Date;
+						tutors[j].Term_Date = tutors[j + 1].Term_Date;
+						tutors[j].Hourly_Rate = tutors[j + 1].Hourly_Rate;
+						tutors[j].Phone = tutors[j + 1].Phone;
+						tutors[j].Address = tutors[j + 1].Address;
+						tutors[j].Centre_Code = tutors[j + 1].Centre_Code;
+						tutors[j].Subject_Code = tutors[j + 1].Subject_Code;
+						tutors[j].Rating = tutors[j + 1].Rating;
+						tutors[j].Rating_No = tutors[j + 1].Rating_No;
+
+						tutors[j + 1].TutorID = temp.TutorID;
+						tutors[j + 1].Name = temp.Name;
+						tutors[j + 1].Join_Date = temp.Join_Date;
+						tutors[j + 1].Term_Date = temp.Term_Date;
+						tutors[j + 1].Hourly_Rate = temp.Hourly_Rate;
+						tutors[j + 1].Phone = temp.Phone;
+						tutors[j + 1].Address = temp.Address;
+						tutors[j + 1].Centre_Code = temp.Centre_Code;
+						tutors[j + 1].Subject_Code = temp.Subject_Code;
+						tutors[j + 1].Rating = temp.Rating;
+						tutors[j + 1].Rating_No = temp.Rating_No;
+					}
+				}
+			}
+			return;
 		}
 		else if (mode == 1) {
+			tempdata = tutors;
+			Tutors temp;
 
+			for (int i = 0; i < length; i++) {
+				for (int j = 0; j < length - i - 1; j++) {
+					if (tempdata[j].TutorID > tempdata[j + 1].TutorID) {
+						// swaping
+						temp.TutorID = tempdata[j].TutorID;
+						temp.Name = tempdata[j].Name;
+						temp.Join_Date = tempdata[j].Join_Date;
+						temp.Term_Date = tempdata[j].Term_Date;
+						temp.Hourly_Rate = tempdata[j].Hourly_Rate;
+						temp.Phone = tempdata[j].Phone;
+						temp.Address = tempdata[j].Address;
+						temp.Centre_Code = tempdata[j].Centre_Code;
+						temp.Subject_Code = tempdata[j].Subject_Code;
+						temp.Rating = tempdata[j].Rating;
+						temp.Rating_No = tempdata[j].Rating_No;
+
+						tempdata[j].TutorID = tempdata[j + 1].TutorID;
+						tempdata[j].Name = tempdata[j + 1].Name;
+						tempdata[j].Join_Date = tempdata[j + 1].Join_Date;
+						tempdata[j].Term_Date = tempdata[j + 1].Term_Date;
+						tempdata[j].Hourly_Rate = tempdata[j + 1].Hourly_Rate;
+						tempdata[j].Phone = tempdata[j + 1].Phone;
+						tempdata[j].Address = tempdata[j + 1].Address;
+						tempdata[j].Centre_Code = tempdata[j + 1].Centre_Code;
+						tempdata[j].Subject_Code = tempdata[j + 1].Subject_Code;
+						tempdata[j].Rating = tempdata[j + 1].Rating;
+						tempdata[j].Rating_No = tempdata[j + 1].Rating_No;
+
+						tempdata[j + 1].TutorID = temp.TutorID;
+						tempdata[j + 1].Name = temp.Name;
+						tempdata[j + 1].Join_Date = temp.Join_Date;
+						tempdata[j + 1].Term_Date = temp.Term_Date;
+						tempdata[j + 1].Hourly_Rate = temp.Hourly_Rate;
+						tempdata[j + 1].Phone = temp.Phone;
+						tempdata[j + 1].Address = temp.Address;
+						tempdata[j + 1].Centre_Code = temp.Centre_Code;
+						tempdata[j + 1].Subject_Code = temp.Subject_Code;
+						tempdata[j + 1].Rating = temp.Rating;
+						tempdata[j + 1].Rating_No = temp.Rating_No;
+					}
+				}
+			}
+			system("CLS");
+			auto stoptime = high_resolution_clock::now();
+			auto duration = duration_cast<microseconds>(stoptime - starttime);
+			cout << "Time Used:" << duration.count() << " microseconds" << endl;
+
+			display(1);
 		}
 		else if (mode == 2) {
+			tempdata = tutors;
+			Tutors temp;
 
+			for (int i = 0; i < length; i++) {
+				for (int j = 0; j < length - i - 1; j++) {
+					if (tempdata[j].Hourly_Rate > tempdata[j + 1].Hourly_Rate) {
+						// swaping
+						temp.TutorID = tempdata[j].TutorID;
+						temp.Name = tempdata[j].Name;
+						temp.Join_Date = tempdata[j].Join_Date;
+						temp.Term_Date = tempdata[j].Term_Date;
+						temp.Hourly_Rate = tempdata[j].Hourly_Rate;
+						temp.Phone = tempdata[j].Phone;
+						temp.Address = tempdata[j].Address;
+						temp.Centre_Code = tempdata[j].Centre_Code;
+						temp.Subject_Code = tempdata[j].Subject_Code;
+						temp.Rating = tempdata[j].Rating;
+						temp.Rating_No = tempdata[j].Rating_No;
+
+						tempdata[j].TutorID = tempdata[j + 1].TutorID;
+						tempdata[j].Name = tempdata[j + 1].Name;
+						tempdata[j].Join_Date = tempdata[j + 1].Join_Date;
+						tempdata[j].Term_Date = tempdata[j + 1].Term_Date;
+						tempdata[j].Hourly_Rate = tempdata[j + 1].Hourly_Rate;
+						tempdata[j].Phone = tempdata[j + 1].Phone;
+						tempdata[j].Address = tempdata[j + 1].Address;
+						tempdata[j].Centre_Code = tempdata[j + 1].Centre_Code;
+						tempdata[j].Subject_Code = tempdata[j + 1].Subject_Code;
+						tempdata[j].Rating = tempdata[j + 1].Rating;
+						tempdata[j].Rating_No = tempdata[j + 1].Rating_No;
+
+						tempdata[j + 1].TutorID = temp.TutorID;
+						tempdata[j + 1].Name = temp.Name;
+						tempdata[j + 1].Join_Date = temp.Join_Date;
+						tempdata[j + 1].Term_Date = temp.Term_Date;
+						tempdata[j + 1].Hourly_Rate = temp.Hourly_Rate;
+						tempdata[j + 1].Phone = temp.Phone;
+						tempdata[j + 1].Address = temp.Address;
+						tempdata[j + 1].Centre_Code = temp.Centre_Code;
+						tempdata[j + 1].Subject_Code = temp.Subject_Code;
+						tempdata[j + 1].Rating = temp.Rating;
+						tempdata[j + 1].Rating_No = temp.Rating_No;
+					}
+				}
+			}
+			system("CLS");
+			auto stoptime = high_resolution_clock::now();
+			auto duration = duration_cast<microseconds>(stoptime - starttime);
+			cout << "Time Used:" << duration.count() << " microseconds" << endl;
+
+			display(1);
 		}
 		else if (mode == 3) {
+			tempdata = tutors;
+			Tutors temp;
 
+			for (int i = 0; i < length; i++) {
+				for (int j = 0; j < length - i - 1; j++) {
+					if (tempdata[j].Rating > tempdata[j + 1].Rating) {
+						// swaping
+						temp.TutorID = tempdata[j].TutorID;
+						temp.Name = tempdata[j].Name;
+						temp.Join_Date = tempdata[j].Join_Date;
+						temp.Term_Date = tempdata[j].Term_Date;
+						temp.Hourly_Rate = tempdata[j].Hourly_Rate;
+						temp.Phone = tempdata[j].Phone;
+						temp.Address = tempdata[j].Address;
+						temp.Centre_Code = tempdata[j].Centre_Code;
+						temp.Subject_Code = tempdata[j].Subject_Code;
+						temp.Rating = tempdata[j].Rating;
+						temp.Rating_No = tempdata[j].Rating_No;
+
+						tempdata[j].TutorID = tempdata[j + 1].TutorID;
+						tempdata[j].Name = tempdata[j + 1].Name;
+						tempdata[j].Join_Date = tempdata[j + 1].Join_Date;
+						tempdata[j].Term_Date = tempdata[j + 1].Term_Date;
+						tempdata[j].Hourly_Rate = tempdata[j + 1].Hourly_Rate;
+						tempdata[j].Phone = tempdata[j + 1].Phone;
+						tempdata[j].Address = tempdata[j + 1].Address;
+						tempdata[j].Centre_Code = tempdata[j + 1].Centre_Code;
+						tempdata[j].Subject_Code = tempdata[j + 1].Subject_Code;
+						tempdata[j].Rating = tempdata[j + 1].Rating;
+						tempdata[j].Rating_No = tempdata[j + 1].Rating_No;
+
+						tempdata[j + 1].TutorID = temp.TutorID;
+						tempdata[j + 1].Name = temp.Name;
+						tempdata[j + 1].Join_Date = temp.Join_Date;
+						tempdata[j + 1].Term_Date = temp.Term_Date;
+						tempdata[j + 1].Hourly_Rate = temp.Hourly_Rate;
+						tempdata[j + 1].Phone = temp.Phone;
+						tempdata[j + 1].Address = temp.Address;
+						tempdata[j + 1].Centre_Code = temp.Centre_Code;
+						tempdata[j + 1].Subject_Code = temp.Subject_Code;
+						tempdata[j + 1].Rating = temp.Rating;
+						tempdata[j + 1].Rating_No = temp.Rating_No;
+					}
+				}
+			}
+			system("CLS");
+			auto stoptime = high_resolution_clock::now();
+			auto duration = duration_cast<microseconds>(stoptime - starttime);
+			cout << "Time Used:" << duration.count() << " microseconds" << endl;
+
+			display(1);
 		}
 	}
 
@@ -790,9 +992,9 @@ void MainMenu_HR() {
 	cout << " 2. Display All Tutor Records\n";
 	cout << " 3. Search Tutor by Tutor ID\n";
 	cout << " 4. Search Tutors by Overall Performance\n";
-	cout << " 5. Sort by Tutors ID\n";
-	cout << " 6. Sort by Tutors Hourly Pay Rater\n";
-	cout << " 7. Sort by Tutors Overall Performance\n";
+	cout << " 5. Sort by Tutors ID assending\n";
+	cout << " 6. Sort by Tutors Hourly Pay Rate assending\n";
+	cout << " 7. Sort by Tutors Overall Performance assending\n";
 	cout << " 8. Modify Tutor Record\n";
 	cout << " 9. Delete Tutor Record\n";
 	cout << " 10. Add New User\n";
@@ -925,6 +1127,7 @@ void MainMenu_HR() {
 	}
 		break;
 	case 5: {
+		system("CLS");
 		cout << "Sort by Tutors ID\n";
 		cout << "----------------------------------------" << endl;
 		cout << "What kind of sorting method you want to use?" << endl;
@@ -950,13 +1153,59 @@ void MainMenu_HR() {
 			MainMenu_HR();
 	}
 		break;
-	case 6:
-		cout << "Sort by Tutors Hourly Pay Rater\n";
+	case 6: {
+		system("CLS");
+		cout << "Sort by Tutors Hourly Pay Rate\n";
 		cout << "----------------------------------------" << endl;
+		cout << "What kind of sorting method you want to use?" << endl;
+		cout << " 1. Bubble Sort" << endl;
+		cout << " 2. Insertion Sort" << endl;
+		int method;
+		do {
+			cout << "Enter the method: ";
+			cin >> method;
+		} while (method != 1 && method != 2);
+
+		if (method == 1)
+			tutorsdata.BubbleSort(2);
+		else
+			tutorsdata.InsertionSort(2);
+
+		do {
+			cout << endl << "Enter 0 to main menu: ";
+			cin >> choice;
+		} while (choice != 0);
+
+		if (choice == 0)
+			MainMenu_HR();
+	}
 		break;
-	case 7:
+	case 7: {
+		system("CLS");
 		cout << "Sort by Tutors Overall Performance\n";
 		cout << "----------------------------------------" << endl;
+		cout << "What kind of sorting method you want to use?" << endl;
+		cout << " 1. Bubble Sort" << endl;
+		cout << " 2. Insertion Sort" << endl;
+		int method;
+		do {
+			cout << "Enter the method: ";
+			cin >> method;
+		} while (method != 1 && method != 2);
+
+		if (method == 1)
+			tutorsdata.BubbleSort(3);
+		else
+			tutorsdata.InsertionSort(3);
+
+		do {
+			cout << endl << "Enter 0 to main menu: ";
+			cin >> choice;
+		} while (choice != 0);
+
+		if (choice == 0)
+			MainMenu_HR();
+	}
 		break;
 	case 8:
 		cout << "Modify Tutor Record\n";
