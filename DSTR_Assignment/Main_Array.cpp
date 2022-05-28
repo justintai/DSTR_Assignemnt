@@ -228,6 +228,9 @@ class TutorsData {
 	string w6 = "Subject";
 	string w7 = "Rating";
 
+	// storing temp data
+	Tutors* tempdata;
+
 public:
 	TutorsData() {
 		int size = 2;
@@ -298,9 +301,12 @@ public:
 	}
 
 	// normal display
-	void display() {
+	void display(int mode) {
+		// mode 0: normal display with arranged by tutor name
+		// mode 1: display by the sorting data
 		int page = 1, start = 0, end = 10, limit = 10, pages = 1;
 		const char separator = ' ';
+		Tutors* dump = (mode == 1) ? tempdata : tutors;
 
 		if (length > 10) {
 			if (length % 10 != 0) {
@@ -335,16 +341,16 @@ public:
 			}
 			
 			for (int i = start; i < end; i++) {
-				string centreName = centredata.convertCentreCode(tutors[i].Centre_Code);
-				string subName = subjectdata.convertSubjectCode(tutors[i].Subject_Code);
-				cout << "| " << tutors[i].TutorID << setw(s1 - to_string(tutors[i].TutorID).length()) << setfill(separator)
-					<< "| " << tutors[i].Name << setw(s2 - tutors[i].Name.length()) << setfill(separator)
-					<< "| " << fixed << setprecision(2) << tutors[i].Hourly_Rate 
-					<< setw(s3 - to_string(tutors[i].Hourly_Rate).substr(0, 6).length()) << setfill(separator)
-					<< "| " << tutors[i].Phone << setw(s4 - to_string(tutors[i].Phone).length()) << setfill(separator)
+				string centreName = centredata.convertCentreCode(dump[i].Centre_Code);
+				string subName = subjectdata.convertSubjectCode(dump[i].Subject_Code);
+				cout << "| " << dump[i].TutorID << setw(s1 - to_string(dump[i].TutorID).length()) << setfill(separator)
+					<< "| " << dump[i].Name << setw(s2 - dump[i].Name.length()) << setfill(separator)
+					<< "| " << fixed << setprecision(2) << dump[i].Hourly_Rate
+					<< setw(s3 - to_string(dump[i].Hourly_Rate).substr(0, 6).length()) << setfill(separator)
+					<< "| " << dump[i].Phone << setw(s4 - to_string(dump[i].Phone).length()) << setfill(separator)
 					<< "| " << centreName << setw(s5 - centreName.length()) << setfill(separator)
 					<< "| " << subName << setw(s6 - subName.length()) << setfill(separator)
-					<< "| " << fixed << setprecision(2) << tutors[i].Rating << setw(s7 - to_string(tutors[i].Rating).substr(0, 4).length())
+					<< "| " << fixed << setprecision(2) << dump[i].Rating << setw(s7 - to_string(dump[i].Rating).substr(0, 4).length())
 					<< setfill(separator) << "|" << endl;
 			}
 
@@ -737,10 +743,23 @@ public:
 	}
 
 	void BubbleSort(int mode) {
-		// mode: 1 - sort by tutor id, 2 - sort by hourly rate, 3 - sort by overall performance
+		// mode: 0 - sort by tutor name, 1 - sort by tutor id, 2 - sort by hourly rate, 3 - sort by overall performance
+		// mode 0 call by add data function and normal display function
 		auto starttime = high_resolution_clock::now();
 		Tutors* result = NULL;
 
+		if (mode == 0) {
+
+		}
+		else if (mode == 1) {
+
+		}
+		else if (mode == 2) {
+
+		}
+		else if (mode == 3) {
+
+		}
 	}
 
 	void InsertionSort(int mode) {
@@ -841,7 +860,7 @@ void MainMenu_HR() {
 	case 2: {
 		cout << "Display All Tutor Records\n";
 		cout << "----------------------------------------" << endl;
-		tutorsdata.display();
+		tutorsdata.display(0);
 		do {
 			cout << endl << "Enter 0 to main menu: ";
 			cin >> choice;
