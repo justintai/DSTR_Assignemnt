@@ -1804,7 +1804,6 @@ public:
 		}
 		tutors[loc].Subject_Code = idata;
 
-
 		checkTermination();
 		return;
 	}
