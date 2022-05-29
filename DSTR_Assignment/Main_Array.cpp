@@ -112,10 +112,13 @@ class CentreData {
 
 public:
 	CentreData() {
-		int size = 2;
+		int size = 4;
 		centres = new Centre[size];
-		Centre data[2] = { {1, "HEAD QUARTER", "Jalan Bukit Bintang No. 1", "WP Kuala Lumpur"},
-					{2, "Bukit Jalil", "Jalan Taman Teknologi No. 1", "WP Kuala Lumpur"} };
+		Centre data[4] = { {1, "HEAD QUARTER", "Jalan Bukit Bintang No. 1", "WP Kuala Lumpur"},
+					{2, "Bukit Jalil", "Jalan Taman Teknologi No. 1", "WP Kuala Lumpur"},
+					{3, "Sungai Besi", "Kem, Sungai Besi, 57000 Kuala Lumpur", "Selangor "},
+					{4, "Platinum Lake", "Jalan Langkawi, Taman Danau Kota, 53100 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur", "WP Kuala Lumpur"}
+		};
 
 		for (int i = 0; i < size; i++) {
 			centres[i].CentreCode = data[i].CentreCode;
@@ -545,11 +548,21 @@ class TutorsData {
 
 public:
 	TutorsData() {
-		int size = 3;
+		int size = 13;
 		tutors = new Tutors[size];
-		Tutors data[3] = { {1, "James", 1650988800, 0, 100, 01234567, "Jalan Teknologi No. 1", 2, 1, 5, 1},
-						{2, "Louis", 1651075200, 0, 200, 07654321, "Jalan Inovasi No. 1", 2, 2, 3.5, 1},
-						{3, "Andrew", 1651075200, 0, 200, 07654321, "Jalan Inovasi No. 1", 1, 1, 3.5, 1}
+		Tutors data[13] = { {1, "James", 1650988800, 0, 10, 01234567, "Jalan Teknologi No. 1", 2, 1, 5, 1},
+						{2, "Louis", 1651075200, 0, 10, 07654321, "Jalan Inovasi No. 1", 2, 2, 3.5, 1},
+						{3, "Andrew", 1586448000, 0, 10.5, 07654321, "Jalan Inovasi No. 1", 1, 1, 3.5, 1},
+						{4, "Benedict", 1440950400, 0, 9.5, 07654321, "Jalan Inovasi No. 1", 1, 1, 3.5, 1},
+						{5, "Charles", 1470326400, 0, 7, 07654321, "Jalan Inovasi No. 1", 1, 1, 3.5, 1},
+						{6, "Daniel", 1560528000, 0, 8.5, 07654321, "Jalan Inovasi No. 1", 1, 1, 3.5, 1},
+						{7, "Ewdward", 1651075200, 0, 9, 07654321, "Jalan Inovasi No. 1", 1, 1, 3.5, 1},
+						{8, "Gerior", 1440950400, 0, 9, 07654321, "Jalan Inovasi No. 1", 1, 1, 3.5, 1},
+						{9, "Han", 1586448000, 0, 10, 07654321, "Jalan Inovasi No. 1", 1, 1, 3.5, 1},
+						{10, "Ixora", 1651075200, 0, 5.5, 07654321, "Jalan Inovasi No. 1", 1, 1, 3.5, 1},
+						{11, "Jason", 1531929600, 0, 8, 07654321, "Jalan Inovasi No. 1", 1, 1, 3.5, 1},
+						{12, "Kingsley", 1610380800, 0, 8.5, 07654321, "Jalan Inovasi No. 1", 1, 1, 3.5, 1},
+						{13, "Lily", 1631894400, 0, 7.5, 07654321, "Jalan Inovasi No. 1", 1, 1, 3.5, 1}
 		};
 
 		for (int i = 0; i < size; i++) {
@@ -1773,6 +1786,10 @@ public:
 
 		cout << endl << "Your rating is recorded. Thank you." << endl;
 		return;
+	}
+
+	void checkTermination() {
+
 	}
 
 }tutorsdata;
