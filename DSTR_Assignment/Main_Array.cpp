@@ -8,6 +8,9 @@
 using namespace std;
 using namespace std::chrono;
 
+int roleNo;
+int centreNo = 0;
+
 // declare functions
 void MainMenu_HR();
 void MainMenu_Student();
@@ -99,6 +102,14 @@ class CentreData {
 	Centre* centres;
 	int length;
 
+	const int s1 = 20, s2 = 30, s3 = 20;
+	int ts = s1 + s2 + s3 + 2;
+	// display content
+	string w1 = "Centre Code";
+	string w2 = "Centre Name";
+	string w3 = "Region";
+	const char separator = ' ';
+
 public:
 	CentreData() {
 		int size = 2;
@@ -168,17 +179,122 @@ public:
 		return;
 	}
 
+	void display() {
+		int page = 1, start = 0, end = 10, limit = 10, pages = 1;
+
+		BubbleSort();
+
+		if (length > 10) {
+			if (length % 10 != 0) {
+				pages = length / 10 + 1;
+			}
+			else {
+				pages = length / 10;
+			}
+		}
+
+		do {
+			cout << endl << string(ts, '=') << endl;
+			cout << "| " << w1 << setw(s1 - w1.length()) << setfill(separator)
+				<< "| " << w2 << setw(s2 - w2.length()) << setfill(separator) 
+				<< "| " << w3 << setw(s3 - w3.length()) << setfill(separator) << "|" << endl;
+
+			start = limit * page - limit;
+
+			if (pages == 1) {
+				end = length % limit;
+			}
+			else if (page * limit - length > 0) {
+				end = length % limit + (page - 1) * limit;
+			}
+			else {
+				end = limit * page;
+			}
+
+			for (int i = start; i < end; i++) {
+				cout << "| " << centres[i].CentreCode << setw(s1 - to_string(centres[i].CentreCode).length()) << setfill(separator)
+					<< "| " << centres[i].Centre_Name << setw(s2 - centres[i].Centre_Name.length()) << setfill(separator)
+					<< "| " << centres[i].Region << setw(s3 - centres[i].Region.length()) << setfill(separator)
+					<< "|" << endl;
+			}
+
+			page = 0;
+			if (pages > 1) {
+				cout << endl << "Enter the page number (1 ~ " << pages << ", 0 - Exit): ";
+				cin >> page;
+			}
+
+		} while (page > 0 && page <= pages);
+
+		if (page == 0)
+			return;
+	}
+
+	int Searching(int search) {
+		BubbleSort(); // Binary search must in tutor id assending
+		int l = 0, r = length - 1;
+
+		while (l <= r) {
+			int m = l + (r - l) / 2;
+			if (centres[m].CentreCode == search)
+				return m;
+
+			if (centres[m].CentreCode < search)
+				l = m + 1;
+
+			else
+				r = m - 1;
+		}
+		return -1;
+	}
+
+	void BubbleSort() {
+		Centre* result = NULL;
+
+		Centre temp;
+		for (int i = 0; i < length; i++) {
+			for (int j = 0; j < length - i - 1; j++) {
+				if (centres[j].CentreCode > centres[j + 1].CentreCode) {
+					 // swaping
+					temp.CentreCode = centres[j].CentreCode;
+					temp.Centre_Name = centres[j].Centre_Name;
+					temp.Address = centres[j].Address;
+					temp.Region = centres[j].Region;
+
+					centres[j].CentreCode = centres[j + 1].CentreCode;
+					centres[j].Centre_Name = centres[j + 1].Centre_Name;
+					centres[j].Address = centres[j + 1].Address;
+					centres[j].Region = centres[j + 1].Region;
+
+					centres[j + 1].CentreCode = temp.CentreCode;
+					centres[j + 1].Centre_Name = temp.Centre_Name;
+					centres[j + 1].Address = temp.Address;
+					centres[j + 1].Region = temp.Region;
+				}
+			}
+		}
+
+		return;
+	}
+
 }centredata;
 
 class SubjectData {
 	Subject* subjects;
 	int length;
 
+	const int s1 = 20, s2 = 30;
+	int ts = s1 + s2 + 2;
+	// display content
+	string w1 = "Subject Code";
+	string w2 = "Subject Name";
+	const char separator = ' ';
+
 public:
 	SubjectData() {
-		int size = 1;
+		int size = 2;
 		subjects = new Subject[size];
-		Subject data[1] = { 1, "Data Structure" };
+		Subject data[2] = { {2, "Data Structure"} ,{1, "Java"} };
 
 		for (int i = 0; i < size; i++) {
 			subjects[i].SubjectCode = data[i].SubjectCode;
@@ -236,6 +352,96 @@ public:
 		return;
 	}
 
+	void display() {
+		int page = 1, start = 0, end = 10, limit = 10, pages = 1;
+
+		BubbleSort();
+
+		if (length > 10) {
+			if (length % 10 != 0) {
+				pages = length / 10 + 1;
+			}
+			else {
+				pages = length / 10;
+			}
+		}
+
+		do {
+			cout << endl << string(ts, '=') << endl;
+			cout << "| " << w1 << setw(s1 - w1.length()) << setfill(separator)
+				<< "| " << w2 << setw(s2 - w2.length()) << setfill(separator) << "|" << endl;
+
+			start = limit * page - limit;
+
+			if (pages == 1) {
+				end = length % limit;
+			}
+			else if (page * limit - length > 0) {
+				end = length % limit + (page - 1) * limit;
+			}
+			else {
+				end = limit * page;
+			}
+
+			for (int i = start; i < end; i++) {
+				cout << "| " << subjects[i].SubjectCode << setw(s1 - to_string(subjects[i].SubjectCode).length()) << setfill(separator)
+					<< "| " << subjects[i].Subject_Name << setw(s2 - subjects[i].Subject_Name.length()) << setfill(separator)
+					<< "|" << endl;
+			}
+
+			page = 0;
+			if (pages > 1) {
+				cout << endl << "Enter the page number (1 ~ " << pages << ", 0 - Exit): ";
+				cin >> page;
+			}
+
+		} while (page > 0 && page <= pages);
+
+		if (page == 0)
+			return;
+	}
+
+	int Searching(int search) {
+		BubbleSort(); // Binary search must in tutor id assending
+		int l = 0, r = length - 1;
+
+		while (l <= r) {
+			int m = l + (r - l) / 2;
+			if (subjects[m].SubjectCode == search)
+				return m;
+
+			if (subjects[m].SubjectCode < search)
+				l = m + 1;
+
+			else
+				r = m - 1;
+		}
+		return -1;
+	}
+
+	void BubbleSort() {
+		Subject* result = NULL;
+
+		Subject temp;
+		for (int i = 0; i < length; i++) {
+			for (int j = 0; j < length - i - 1; j++) {
+				if (subjects[j].SubjectCode > subjects[j + 1].SubjectCode) {
+					// swaping
+					temp.SubjectCode = subjects[j].SubjectCode;
+					temp.Subject_Name = subjects[j].Subject_Name;
+
+					subjects[j].SubjectCode = subjects[j + 1].SubjectCode;
+					subjects[j].Subject_Name = subjects[j + 1].Subject_Name;
+
+					subjects[j + 1].SubjectCode = temp.SubjectCode;
+					subjects[j + 1].Subject_Name = temp.Subject_Name;
+				}
+			}
+		}
+
+		return;
+	}
+
 }subjectdata;
 
 class UserData {
@@ -246,9 +452,9 @@ public:
 	UserData() {
 		int size = 3;
 		users = new Users[size];
-		Users data[3] = { {1, "sawchanghau", "sch123", "STUDENT", 1},
-						{2, "taihongyi", "thy123", "ADMIN", 1},
-						{3, "laurentius", "lm123", "HR MANAGER", 0} };
+		Users data[3] = { {1, "sawchanghau", "sch123", "STUDENT", 2},
+						{2, "taihongyi", "thy123", "ADMIN", 2},
+						{3, "laurentius", "lm123", "HR MANAGER", 1} };
 
 		for (int i = 0; i < size; i++) {
 			users[i].UserID = data[i].UserID;
@@ -269,7 +475,7 @@ public:
 		return length;
 	}
 
-	int RoleConvert(string role) {
+	int RoleConvert(string role, int centrecode) {
 		int no = 0;
 		if (role == "STUDENT" || role == "student" || role == "Student")
 			no = 1;
@@ -278,6 +484,8 @@ public:
 		else if (role == "HR MANAGER" || role == "hr manager" || role == "hr" || role == "HR" || role == "Hr Manager")
 			no = 3;
 
+		roleNo = no;
+		centreNo = centrecode;
 		return no;
 	}
 
@@ -340,8 +548,8 @@ public:
 		int size = 3;
 		tutors = new Tutors[size];
 		Tutors data[3] = { {1, "James", 1650988800, 0, 100, 01234567, "Jalan Teknologi No. 1", 2, 1, 5, 1},
-						{2, "Louis", 1651075200, 0, 200, 07654321, "Jalan Inovasi No. 1", 2, 1, 3.5, 1},
-						{3, "Andrew", 1651075200, 0, 200, 07654321, "Jalan Inovasi No. 1", 2, 1, 3.5, 1}
+						{2, "Louis", 1651075200, 0, 200, 07654321, "Jalan Inovasi No. 1", 2, 2, 3.5, 1},
+						{3, "Andrew", 1651075200, 0, 200, 07654321, "Jalan Inovasi No. 1", 1, 1, 3.5, 1}
 		};
 
 		for (int i = 0; i < size; i++) {
@@ -418,7 +626,7 @@ public:
 		return false;
 	}
 
-	// normal display
+	// normal display & sorting display
 	void display(int mode) {
 		// mode 0: normal display with arranged by tutor name
 		// mode 1: display by the sorting data
@@ -526,8 +734,8 @@ public:
 			}
 
 			for (int i = start; i < end; i++) {
-				string centreName = centredata.convertCentreCode(tutors[i].Centre_Code);
-				string subName = subjectdata.convertSubjectCode(tutors[i].Subject_Code);
+				string centreName = centredata.convertCentreCode(temp[i].Centre_Code);
+				string subName = subjectdata.convertSubjectCode(temp[i].Subject_Code);
 				cout << "| " << temp[i].TutorID << setw(s1 - to_string(temp[i].TutorID).length()) << setfill(separator)
 					<< "| " << temp[i].Name << setw(s2 - temp[i].Name.length()) << setfill(separator)
 					<< "| " << to_string(temp[i].Hourly_Rate).substr(0, 6)
@@ -554,7 +762,7 @@ public:
 
 	void LinearSearch(int mode) {
 		auto starttime = high_resolution_clock::now();
-		// mode: 1 - search tutor id, 2 - search performance
+		// mode: 1 - search tutor id, 2 - search performance, 3 - search centre code
 		Tutors* result = NULL;
 		if (mode == 1) {
 			int search, j = 0, m = 0;
@@ -699,6 +907,78 @@ public:
 				cout << "The overall performance rate not found!" << endl;
 			}
 			return;
+		}
+		else if (mode == 3) {
+			int j = 0, m = 0;
+
+			if (centreNo != 0) {
+				for (int i = 0; i < length; i++) {
+					Tutors* newResult;
+					if (tutors[i].Centre_Code == centreNo) {
+						j++;
+						if (result == NULL) {
+							result = new Tutors[j];
+							result[m].TutorID = tutors[i].TutorID;
+							result[m].Name = tutors[i].Name;
+							result[m].Join_Date = tutors[i].Join_Date;
+							result[m].Term_Date = tutors[i].Term_Date;
+							result[m].Hourly_Rate = tutors[i].Hourly_Rate;
+							result[m].Phone = tutors[i].Phone;
+							result[m].Address = tutors[i].Address;
+							result[m].Centre_Code = tutors[i].Centre_Code;
+							result[m].Subject_Code = tutors[i].Subject_Code;
+							result[m].Rating = tutors[i].Rating;
+							result[m].Rating_No = tutors[i].Rating_No;
+						}
+						else {
+							newResult = new Tutors[j];
+							for (int k = 0; k < m; k++) {
+								newResult[k].TutorID = result[k].TutorID;
+								newResult[k].Name = result[k].Name;
+								newResult[k].Join_Date = result[k].Join_Date;
+								newResult[k].Term_Date = result[k].Term_Date;
+								newResult[k].Hourly_Rate = result[k].Hourly_Rate;
+								newResult[k].Phone = result[k].Phone;
+								newResult[k].Address = result[k].Address;
+								newResult[k].Centre_Code = result[k].Centre_Code;
+								newResult[k].Subject_Code = result[k].Subject_Code;
+								newResult[k].Rating = result[k].Rating;
+								newResult[k].Rating_No = result[k].Rating_No;
+							}
+
+							newResult[m].TutorID = tutors[i].TutorID;
+							newResult[m].Name = tutors[i].Name;
+							newResult[m].Join_Date = tutors[i].Join_Date;
+							newResult[m].Term_Date = tutors[i].Term_Date;
+							newResult[m].Hourly_Rate = tutors[i].Hourly_Rate;
+							newResult[m].Phone = tutors[i].Phone;
+							newResult[m].Address = tutors[i].Address;
+							newResult[m].Centre_Code = tutors[i].Centre_Code;
+							newResult[m].Subject_Code = tutors[i].Subject_Code;
+							newResult[m].Rating = tutors[i].Rating;
+							newResult[m].Rating_No = tutors[i].Rating_No;
+
+							result = newResult;
+						}
+
+						m++;
+					}
+				}
+
+				//system("CLS");
+
+				if (j != 0) {
+					display(result, j);
+				}
+				else {
+					cout << "The centre not found!" << endl;
+				}
+			}
+			else {
+				cout << "The centre not found!" << endl;
+			}
+
+		return;
 		}
 	}
 
@@ -971,7 +1251,7 @@ public:
 			auto duration = duration_cast<microseconds>(stoptime - starttime);
 			cout << "Bubble Sort Time Used:" << duration.count() << " microseconds" << endl;
 
-			display(1);
+			return;
 		}
 		else if (mode == 2) {
 			tempdata = tutors;
@@ -1024,7 +1304,7 @@ public:
 			auto duration = duration_cast<microseconds>(stoptime - starttime);
 			cout << "Bubble Sort Time Used:" << duration.count() << " microseconds" << endl;
 
-			display(1);
+			return;
 		}
 		else if (mode == 3) {
 			tempdata = tutors;
@@ -1077,7 +1357,7 @@ public:
 			auto duration = duration_cast<microseconds>(stoptime - starttime);
 			cout << "Bubble Sort Time Used:" << duration.count() << " microseconds" << endl;
 
-			display(1);
+			return;
 		}
 	}
 
@@ -1138,7 +1418,7 @@ public:
 			auto duration = duration_cast<microseconds>(stoptime - starttime);
 			cout << "Insertion Sort Time Used:" << duration.count() << " microseconds" << endl;
 
-			display(1);
+			return;
 		}
 		else if (mode == 2) {
 			Tutors temp;
@@ -1192,7 +1472,7 @@ public:
 			auto duration = duration_cast<microseconds>(stoptime - starttime);
 			cout << "Insertion Sort Time Used:" << duration.count() << " microseconds" << endl;
 
-			display(1);
+			return;
 		}
 		else if (mode == 3) {
 			Tutors temp;
@@ -1246,7 +1526,7 @@ public:
 			auto duration = duration_cast<microseconds>(stoptime - starttime);
 			cout << "Insertion Sort Time Used:" << duration.count() << " microseconds" << endl;
 
-			display(1);
+			return;
 		}
 	}
 
@@ -1341,7 +1621,8 @@ public:
 
 		// enter hourly rate
 		cout << "Enter hourly rate: ";
-		cin >> input;
+		input = "";
+		getline(cin, input);
 		fdata = tutors[loc].Hourly_Rate;
 
 		if (!input.empty()) {
@@ -1351,17 +1632,18 @@ public:
 
 		// enter phone number
 		cout << "Enter phone number: ";
-		cin >> input;
+		input = "";
+		getline(cin, input);
 		idata = tutors[loc].Phone;
 
 		if (!input.empty()) {
-			idata = stof(input);
+			idata = stoi(input);
 		}
 		tutors[loc].Phone = idata;
 
 		// enter address
-		cin.ignore();
 		cout << "Enter address: ";
+		input = "";
 		getline(cin, input);
 		data = tutors[loc].Address;
 
@@ -1371,22 +1653,26 @@ public:
 		tutors[loc].Address = data;
 
 		// enter centre
+		centredata.display();
+		input = "";
 		cout << "Enter centre code: ";
-		cin >> input;
+		getline(cin, input);
 		idata = tutors[loc].Centre_Code;
 
 		if (!input.empty()) {
-			idata = stof(input);
+			idata = stoi(input);
 		}
 		tutors[loc].Centre_Code = idata;
 
 		// enter subject
+		subjectdata.display();
+		input = "";
 		cout << "Enter subject code: ";
-		cin >> input;
+		getline(cin, input);
 		idata = tutors[loc].Subject_Code;
 
 		if (!input.empty()) {
-			idata = stof(input);
+			idata = stoi(input);
 		}
 		tutors[loc].Subject_Code = idata;
 
@@ -1437,6 +1723,55 @@ public:
 
 		cout << endl << "Deletion successful" << endl;
 
+		return;
+	}
+
+	void RateTutor() {
+		int key, loc = -1;
+		float rate;
+		InsertionSort(1);
+		system("CLS");
+
+		cout << "Rate Tutor\n";
+		cout << "----------------------------------------" << endl;
+
+		// search for the tutor id's location
+		do {
+			int l = 0, r = length - 1;
+			loc = -1;
+			cout << endl << "Enter the tutor ID you want to rate: ";
+			cin >> key;
+
+			loc = BinarySearchForIndex(key);
+
+			if (loc == -1) {
+				cout << "The ID not found! Try again." << endl;
+			}
+		} while (loc == -1);
+
+		system("CLS");
+
+		cout << "Rate Tutor\n";
+		cout << "----------------------------------------" << endl;
+
+		cout << "The tutor you want to rate is " << tutors[loc].Name << endl;
+		do {
+			cout << "What is your rating (0 - 5)? ";
+			cin >> rate;
+
+			if (!(rate >= 0 && rate <= 5))
+				cout << " **Invalid rating! Try again." << endl;
+
+		} while (!(rate >= 0 && rate <= 5));
+		
+
+		float oldrate = tutors[loc].Rating;
+		int no = tutors[loc].Rating_No;
+		float newrate = ((oldrate * no) + rate) / (no + 1);
+		tutors[loc].Rating = newrate;
+		tutors[loc].Rating_No = no + 1;
+
+		cout << endl << "Your rating is recorded. Thank you." << endl;
 		return;
 	}
 
@@ -1508,8 +1843,12 @@ void MainMenu_HR() {
 			cin.ignore();
 			cout << "Enter address: ";
 			getline(cin, data.Address);
+
+			centredata.display();
 			cout << "Enter centre code: ";
 			cin >> data.Centre_Code;
+
+			subjectdata.display();
 			cout << "Enter subject code: ";
 			cin >> data.Subject_Code;
 
@@ -1613,6 +1952,8 @@ void MainMenu_HR() {
 		else
 			tutorsdata.InsertionSort(1);
 
+		tutorsdata.display(1);
+
 		do {
 			cout << endl << "Enter 0 to main menu: ";
 			cin >> choice;
@@ -1640,6 +1981,8 @@ void MainMenu_HR() {
 		else
 			tutorsdata.InsertionSort(2);
 
+		tutorsdata.display(1);
+
 		do {
 			cout << endl << "Enter 0 to main menu: ";
 			cin >> choice;
@@ -1666,6 +2009,8 @@ void MainMenu_HR() {
 			tutorsdata.BubbleSort(3);
 		else
 			tutorsdata.InsertionSort(3);
+
+		tutorsdata.display(1);
 
 		do {
 			cout << endl << "Enter 0 to main menu: ";
@@ -1865,20 +2210,48 @@ void MainMenu_Student() {
 	cout << "============================================== \n";
 	cout << "                     MENU\n";
 	cout << "============================================== \n";
-	cout << " 1. Rate Tutor\n";
-	cout << " 2. View Tutor\n";
-	cout << " 0. Exit\n";
+	cout << " 1. View Tutor\n";
+	cout << " 2. Rate Tutor\n";
+	cout << " 0. Exit\n" << endl;
 	do {
 		cout << "What function your want to process? ";
 		cin >> choice;
 	} while (choice < 0 || choice > 2);
 
 	switch (choice) {
-	case 1:
-		cout << " 1. Rate Tutor\n";
+	case 1: {
+		system("CLS");
+		cout << "View Tutor\n";
+		cout << "----------------------------------------" << endl;
+
+		tutorsdata.LinearSearch(3);
+
+		do {
+			cout << endl << "Enter 0 to main menu: ";
+			cin >> choice;
+		} while (choice != 0);
+
+		if (choice == 0)
+			MainMenu_Student();
+	}
 		break;
-	case 2:
-		cout << " 2. View Tutor\n";
+	case 2: {
+		do {
+			system("CLS");
+			cout << "Rate Tutor\n";
+			cout << "----------------------------------------" << endl;
+
+			tutorsdata.RateTutor();
+
+			do {
+				cout << endl << "Enter 1 to repeat again 0 to EXIT: ";
+				cin >> choice;
+			} while (choice < 0 || choice > 1);
+
+			if (choice == 0)
+				MainMenu_Student();
+		} while (choice == 1);
+	}
 		break;
 	case 0:
 		Login();
@@ -1897,15 +2270,28 @@ void MainMenu_Admin() {
 	cout << "============================================== \n";
 	cout << " 1. View Tutor\n";
 	cout << " 2. Generate Report\n";
-	cout << " 0. Exit\n";
+	cout << " 0. Exit\n" << endl;
 	do {
 		cout << "What function your want to process? ";
 		cin >> choice;
 	} while (choice < 0 || choice > 2);
 
 	switch (choice) {
-	case 1:
-		cout << " 1. View Tutor\n";
+	case 1: {
+		system("CLS");
+		cout << "View Tutor\n";
+		cout << "----------------------------------------" << endl;
+
+		tutorsdata.LinearSearch(3);
+
+		do {
+			cout << endl << "Enter 0 to main menu: ";
+			cin >> choice;
+		} while (choice != 0);
+
+		if (choice == 0)
+			MainMenu_Admin();
+	}
 		break;
 	case 2:
 		cout << " 2. Generate Report\n";
@@ -1943,7 +2329,7 @@ void Login() {
 		for (int i = 0; i < usersdata.getLength(); i++) {
 			if (username == users[i].Username) {
 				if (password == users[i].Password) {
-					role = usersdata.RoleConvert(users[i].Role);
+					role = usersdata.RoleConvert(users[i].Role, users[i].Centre_Code);
 				}
 			}
 		}
@@ -1970,8 +2356,8 @@ void Login() {
 
 int main() {
 	
-	//Login();
-	MainMenu_HR();
+	Login();
+	//MainMenu_HR();
 
 	return 0;
 }
