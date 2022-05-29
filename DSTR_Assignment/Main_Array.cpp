@@ -556,7 +556,7 @@ class TutorsData {
 public:
 	TutorsData() {
 		int size = 13;
-		tutors = new Tutors[size];
+		Tutors* temp = new Tutors[size];
 		Tutors data[13] = { {1, "James", 1650988800, 1638115200, 10, 01234567, "Jalan Teknologi No. 1", 2, 1, 5, 1},
 						{3, "Andrew", 1586448000, 1638115200, 10.5, 07654321, "Jalan Inovasi No. 1", 3, 1, 3.5, 1},
 						{4, "Benedict", 1440950400, 0, 9.5, 07654321, "Jalan Inovasi No. 1", 4, 2, 3.5, 1},
@@ -573,19 +573,20 @@ public:
 		};
 
 		for (int i = 0; i < size; i++) {
-			tutors[i].TutorID = data[i].TutorID;
-			tutors[i].Name = data[i].Name;
-			tutors[i].Join_Date = data[i].Join_Date;
-			tutors[i].Term_Date = data[i].Term_Date;
-			tutors[i].Hourly_Rate = data[i].Hourly_Rate;
-			tutors[i].Phone = data[i].Phone;
-			tutors[i].Address = data[i].Address;
-			tutors[i].Centre_Code = data[i].Centre_Code;
-			tutors[i].Subject_Code = data[i].Subject_Code;
-			tutors[i].Rating = data[i].Rating;
-			tutors[i].Rating_No = data[i].Rating_No;
+			temp[i].TutorID = data[i].TutorID;
+			temp[i].Name = data[i].Name;
+			temp[i].Join_Date = data[i].Join_Date;
+			temp[i].Term_Date = data[i].Term_Date;
+			temp[i].Hourly_Rate = data[i].Hourly_Rate;
+			temp[i].Phone = data[i].Phone;
+			temp[i].Address = data[i].Address;
+			temp[i].Centre_Code = data[i].Centre_Code;
+			temp[i].Subject_Code = data[i].Subject_Code;
+			temp[i].Rating = data[i].Rating;
+			temp[i].Rating_No = data[i].Rating_No;
 		}
 		length = size;
+		tutors = temp;
 		BubbleSort(0);
 	}
 
@@ -1954,7 +1955,7 @@ void CentreData::report() {
 
 // functions
 void MainMenu_HR() {
-	//system("CLS");
+	system("CLS");
 	int choice;
 	bool flag = true;
 	cout << "============================================== \n";
@@ -2585,6 +2586,7 @@ void Login() {
 }
 
 int main() {
+	tutorsdata.checkTermination();
 	//system("CLS");
 	//Login();
 	MainMenu_HR();
