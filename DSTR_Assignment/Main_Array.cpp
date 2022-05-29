@@ -587,7 +587,110 @@ public:
 		}
 		length = size;
 		tutors = temp;
+		checkTermination();
 		BubbleSort(0);
+	}
+
+	void checkTermination() {
+		time_t t = system_clock::to_time_t(system_clock::now()); // get time now
+		tm* now = localtime(&t);
+
+		int date = now->tm_mday;
+		int month = now->tm_mon;
+		int year = now->tm_year;
+
+		if (month - 6 < 0) {
+			month = month + 6; // (-6 + 12)
+			year--;
+		}
+		else {
+			month = month - 6;
+		}
+
+		// convert today date to timestamp
+		struct tm time;
+		time_t time_now;
+		time.tm_year = year;
+		time.tm_mon = month;
+		time.tm_mday = date;
+		time.tm_hour = 0;
+		time.tm_min = 0;
+		time.tm_sec = 0;
+		time.tm_isdst = 0;
+		time_now = mktime(&time);
+
+		const int size = length;
+		int len = length;
+
+		for (int i = 0; i < size; i++) {
+			if (tutors[i].Term_Date != 0 && tutors[i].Term_Date <= time_now) {
+				len--;
+				for (int j = 0; j < centredata.getLength(); j++) {
+					if (centredata.getCentreData()[j].CentreCode == tutors[i].Centre_Code) {
+						centredata.getCentreData()[j].Terminated++;
+					}
+				}
+			}
+		}
+
+		length = len;
+		Tutors* result = NULL;
+		int m = 0, z = 0;
+		for (int i = 0; i < size; i++) {
+			Tutors* newResult;
+			if (!(tutors[i].Term_Date != 0 && tutors[i].Term_Date <= time_now)) {
+				z++;
+				if (result == NULL) {
+					result = new Tutors[z];
+					result[m].TutorID = tutors[i].TutorID;
+					result[m].Name = tutors[i].Name;
+					result[m].Join_Date = tutors[i].Join_Date;
+					result[m].Term_Date = tutors[i].Term_Date;
+					result[m].Hourly_Rate = tutors[i].Hourly_Rate;
+					result[m].Phone = tutors[i].Phone;
+					result[m].Address = tutors[i].Address;
+					result[m].Centre_Code = tutors[i].Centre_Code;
+					result[m].Subject_Code = tutors[i].Subject_Code;
+					result[m].Rating = tutors[i].Rating;
+					result[m].Rating_No = tutors[i].Rating_No;
+				}
+				else {
+					newResult = new Tutors[z];
+					for (int k = 0; k < m; k++) {
+						newResult[k].TutorID = result[k].TutorID;
+						newResult[k].Name = result[k].Name;
+						newResult[k].Join_Date = result[k].Join_Date;
+						newResult[k].Term_Date = result[k].Term_Date;
+						newResult[k].Hourly_Rate = result[k].Hourly_Rate;
+						newResult[k].Phone = result[k].Phone;
+						newResult[k].Address = result[k].Address;
+						newResult[k].Centre_Code = result[k].Centre_Code;
+						newResult[k].Subject_Code = result[k].Subject_Code;
+						newResult[k].Rating = result[k].Rating;
+						newResult[k].Rating_No = result[k].Rating_No;
+					}
+
+					newResult[m].TutorID = tutors[i].TutorID;
+					newResult[m].Name = tutors[i].Name;
+					newResult[m].Join_Date = tutors[i].Join_Date;
+					newResult[m].Term_Date = tutors[i].Term_Date;
+					newResult[m].Hourly_Rate = tutors[i].Hourly_Rate;
+					newResult[m].Phone = tutors[i].Phone;
+					newResult[m].Address = tutors[i].Address;
+					newResult[m].Centre_Code = tutors[i].Centre_Code;
+					newResult[m].Subject_Code = tutors[i].Subject_Code;
+					newResult[m].Rating = tutors[i].Rating;
+					newResult[m].Rating_No = tutors[i].Rating_No;
+
+					result = newResult;
+				}
+
+				m++;
+			}
+		}
+		tutors = result;
+
+		return;
 	}
 
 	Tutors* getTutorData() {
@@ -684,7 +787,7 @@ public:
 			start = limit * page - limit;
 
 			if (pages == 1) {
-				end = length % limit;
+				end = (length != 10) ? length % limit : 10;
 			}
 			else if (page * limit - length > 0) {
 				end = length % limit + (page - 1) * limit;
@@ -1781,108 +1884,6 @@ public:
 		return;
 	}
 
-	void checkTermination() {
-		time_t t = system_clock::to_time_t(system_clock::now()); // get time now
-		tm* now = localtime(&t);
-
-		int date = now->tm_mday;
-		int month = now->tm_mon;
-		int year = now->tm_year;
-
-		if (month - 6 < 0) {
-			month = month + 6; // (-6 + 12)
-			year--;
-		}
-		else {
-			month = month - 6;
-		}
-
-		// convert today date to timestamp
-		struct tm time;
-		time_t time_now;
-		time.tm_year = year;
-		time.tm_mon = month;
-		time.tm_mday = date;
-		time.tm_hour = 0;
-		time.tm_min = 0;
-		time.tm_sec = 0;
-		time.tm_isdst = 0;
-		time_now = mktime(&time);
-
-		const int size = length;
-		int len = length;
-
-		for (int i = 0; i < size; i++) {
-			if (tutors[i].Term_Date != 0 && tutors[i].Term_Date <= time_now) {
-				len--;
-				for (int j = 0; j < centredata.getLength(); j++) {
-					if (centredata.getCentreData()[j].CentreCode == tutors[i].Centre_Code) {
-						centredata.getCentreData()[j].Terminated++;
-					}
-				}
-			}
-		}
-
-		length = len;
-		Tutors* result = NULL;
-		int m = 0, z = 0;
-		for (int i = 0; i < size; i++) {
-			Tutors* newResult;
-			if (!(tutors[i].Term_Date != 0 && tutors[i].Term_Date <= time_now)) {
-				z++;
-				if (result == NULL) {
-					result = new Tutors[z];
-					result[m].TutorID = tutors[i].TutorID;
-					result[m].Name = tutors[i].Name;
-					result[m].Join_Date = tutors[i].Join_Date;
-					result[m].Term_Date = tutors[i].Term_Date;
-					result[m].Hourly_Rate = tutors[i].Hourly_Rate;
-					result[m].Phone = tutors[i].Phone;
-					result[m].Address = tutors[i].Address;
-					result[m].Centre_Code = tutors[i].Centre_Code;
-					result[m].Subject_Code = tutors[i].Subject_Code;
-					result[m].Rating = tutors[i].Rating;
-					result[m].Rating_No = tutors[i].Rating_No;
-				}
-				else {
-					newResult = new Tutors[z];
-					for (int k = 0; k < m; k++) {
-						newResult[k].TutorID = result[k].TutorID;
-						newResult[k].Name = result[k].Name;
-						newResult[k].Join_Date = result[k].Join_Date;
-						newResult[k].Term_Date = result[k].Term_Date;
-						newResult[k].Hourly_Rate = result[k].Hourly_Rate;
-						newResult[k].Phone = result[k].Phone;
-						newResult[k].Address = result[k].Address;
-						newResult[k].Centre_Code = result[k].Centre_Code;
-						newResult[k].Subject_Code = result[k].Subject_Code;
-						newResult[k].Rating = result[k].Rating;
-						newResult[k].Rating_No = result[k].Rating_No;
-					}
-
-					newResult[m].TutorID = tutors[i].TutorID;
-					newResult[m].Name = tutors[i].Name;
-					newResult[m].Join_Date = tutors[i].Join_Date;
-					newResult[m].Term_Date = tutors[i].Term_Date;
-					newResult[m].Hourly_Rate = tutors[i].Hourly_Rate;
-					newResult[m].Phone = tutors[i].Phone;
-					newResult[m].Address = tutors[i].Address;
-					newResult[m].Centre_Code = tutors[i].Centre_Code;
-					newResult[m].Subject_Code = tutors[i].Subject_Code;
-					newResult[m].Rating = tutors[i].Rating;
-					newResult[m].Rating_No = tutors[i].Rating_No;
-
-					result = newResult;
-				}
-
-				m++;
-			}
-		}
-		tutors = result;
-		
-		return;
-	}
-
 	int getTutorNoForCentre(int code) {
 		int num = 0;
 		for (int i = 0; i < length; i++) {
@@ -1922,7 +1923,7 @@ void CentreData::report() {
 		cout << "Number of Termination: " << termno << endl;
 		cout << "Termination Rate: " << fixed << setprecision(2) << percent << " %" << endl;
 		if (percent >= 50) {
-			cout << "Alert! The centre is facing tutor shortage!" << endl;
+			cout << " **Alert! The centre is facing tutor shortage!" << endl;
 		}
 	}
 	else if (roleNo == 3) {
@@ -1933,6 +1934,9 @@ void CentreData::report() {
 		cout << "Total terminated: " << totalTerm << endl;
 		cout << "Total Number of Tutor:" << ttutor << endl;
 		cout << "Total Termination Rate: " << fixed << setprecision(2) << tpercent << " %" << endl;
+		if (tpercent >= 50) {
+			cout << " **Alert! Excel Tuition Centre is facing tutor shortage!" << endl;
+		}
 
 		for (int j = 0; j < length; j++) {
 			string name = centredata.getCentreData()[j].Centre_Name;
@@ -1946,7 +1950,7 @@ void CentreData::report() {
 			cout << "Number of Termination: " << termno << endl;
 			cout << "Termination Rate: " << fixed << setprecision(2) << percent << " %" << endl;
 			if (percent >= 50) {
-				cout << "Alert! The centre is facing tutor shortage!" << endl;
+				cout << " **Alert! The centre is facing tutor shortage!" << endl;
 			}
 		}
 	}
@@ -2549,7 +2553,7 @@ void Login() {
 	
 	do {
 		cout << "Enter Username (Input '0' to Exit): ";
-		cin >> username;
+		getline(cin, username);
 		if (username == "0")
 			exit(0);
 
@@ -2586,10 +2590,9 @@ void Login() {
 }
 
 int main() {
-	tutorsdata.checkTermination();
-	//system("CLS");
-	//Login();
-	MainMenu_HR();
+	system("CLS");
+	Login();
+	//MainMenu_HR();
 
 	return 0;
 }
