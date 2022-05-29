@@ -4,6 +4,7 @@
 #include <time.h>
 #include <ctime>
 #include <chrono>
+#include <algorithm>
 #define _CRT_SECURE_NO_WARNINGS
 using namespace std;
 using namespace std::chrono;
@@ -1844,6 +1845,8 @@ public:
 		cout << "Rate Tutor\n";
 		cout << "----------------------------------------" << endl;
 
+		tutorsdata.LinearSearch(3);
+
 		// search for the tutor id's location
 		do {
 			int l = 0, r = length - 1;
@@ -2567,6 +2570,7 @@ void Login() {
 				}
 			}
 		}
+		cin.ignore();
 
 		if (role == 0)
 			cout << "Your Username or Password is incorrect.\n";
