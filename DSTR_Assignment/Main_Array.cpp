@@ -2557,7 +2557,6 @@ void Login() {
 		if (username == "0")
 			exit(0);
 
-		cin.ignore();
 		cout << "Enter Password: ";
 		cin >> password;
 
