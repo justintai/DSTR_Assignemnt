@@ -5,7 +5,7 @@
 #include <ctime>
 #include <chrono>
 #include <algorithm>
-#define _CRT_SECURE_NO_WARNINGS
+//#define _CRT_SECURE_NO_WARNINGS
 using namespace std;
 using namespace std::chrono;
 
@@ -594,11 +594,12 @@ public:
 
 	void checkTermination() {
 		time_t t = system_clock::to_time_t(system_clock::now()); // get time now
-		tm* now = localtime(&t);
+		struct tm now;
+		localtime_s(&now,&t);
 
-		int date = now->tm_mday;
-		int month = now->tm_mon;
-		int year = now->tm_year;
+		int date = now.tm_mday;
+		int month = now.tm_mon;
+		int year = now.tm_year;
 
 		if (month - 6 < 0) {
 			month = month + 6; // (-6 + 12)
