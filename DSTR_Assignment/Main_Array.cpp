@@ -888,13 +888,14 @@ public:
 	}
 
 	void LinearSearch(int mode) {
-		auto starttime = high_resolution_clock::now();
+		
 		// mode: 1 - search tutor id, 2 - search performance, 3 - search centre code
 		Tutors* result = NULL;
 		if (mode == 1) {
 			int search, j = 0, m = 0;
 			cout << "Enter tutor ID: ";
 			cin >> search;
+			auto starttime = high_resolution_clock::now();
 
 			for (int i = 0; i < length; i++) {
 				Tutors* newResult;
@@ -967,7 +968,7 @@ public:
 			float search;
 			cout << "Enter overall performance rate: ";
 			cin >> search;
-
+			auto starttime = high_resolution_clock::now();
 			for (int i = 0; i < length; i++) {
 				Tutors* newResult;
 				if (tutors[i].Rating == search) {
@@ -1037,7 +1038,6 @@ public:
 		}
 		else if (mode == 3) {
 			int j = 0, m = 0;
-
 			if (centreNo != 0) {
 				for (int i = 0; i < length; i++) {
 					Tutors* newResult;
@@ -1115,11 +1115,12 @@ public:
 
 		if (mode == 1) {
 			BubbleSort(1); // binary search must use in assending order
-			auto starttime = high_resolution_clock::now();
+			
 			int search, l = 0, r = length - 1;
 			int j = 0, m = 0;
 			cout << "Enter tutor ID: ";
 			cin >> search;
+			auto starttime = high_resolution_clock::now();
 
 			while (l <= r) {
 				Tutors* newResult;
@@ -1195,13 +1196,13 @@ public:
 		}
 		else if (mode == 2) {
 			BubbleSort(3); // binary search must is assending order
-			auto starttime = high_resolution_clock::now();
+			
 			float search;
 			int l = 0, r = length - 1;
 			int j = 0, m = 0;
 			cout << "Enter overall performance rate: ";
 			cin >> search;
-
+			auto starttime = high_resolution_clock::now();
 			while (l <= r) {
 				Tutors* newResult;
 				int i = l + (r - l) / 2;
@@ -1279,7 +1280,7 @@ public:
 	void BubbleSort(int mode) {
 		// mode: 0 - sort by tutor name, 1 - sort by tutor id, 2 - sort by hourly rate, 3 - sort by overall performance
 		// mode 0 call by add data function and normal display function
-		auto starttime = high_resolution_clock::now();
+		
 		Tutors* result = NULL;
 
 		if (mode == 0) {
@@ -1331,7 +1332,7 @@ public:
 		else if (mode == 1) {
 			tempdata = tutors;
 			Tutors temp;
-
+			auto starttime = high_resolution_clock::now();
 			for (int i = 0; i < length; i++) {
 				for (int j = 0; j < length - i - 1; j++) {
 					if (tempdata[j].TutorID > tempdata[j + 1].TutorID) {
@@ -1384,7 +1385,7 @@ public:
 		else if (mode == 2) {
 			tempdata = tutors;
 			Tutors temp;
-
+			auto starttime = high_resolution_clock::now();
 			for (int i = 0; i < length; i++) {
 				for (int j = 0; j < length - i - 1; j++) {
 					if (tempdata[j].Hourly_Rate > tempdata[j + 1].Hourly_Rate) {
@@ -1437,7 +1438,7 @@ public:
 		else if (mode == 3) {
 			tempdata = tutors;
 			Tutors temp;
-
+			auto starttime = high_resolution_clock::now();
 			for (int i = 0; i < length; i++) {
 				for (int j = 0; j < length - i - 1; j++) {
 					if (tempdata[j].Rating > tempdata[j + 1].Rating) {
@@ -1491,14 +1492,14 @@ public:
 
 	void InsertionSort(int mode) {
 		// mode: 1 - sort by tutor id, 2 - sort by hourly rate, 3 - sort by overall performance
-		auto starttime = high_resolution_clock::now();
+		
 		Tutors* result = NULL;
 
 		if (mode == 1) {
 			Tutors temp;
 			int j;
 			tempdata = tutors;
-
+			auto starttime = high_resolution_clock::now();
 			for (int i = 1; i < length; i++) {
 				temp.TutorID = tempdata[i].TutorID;
 				temp.Name = tempdata[i].Name;
@@ -1552,7 +1553,7 @@ public:
 			Tutors temp;
 			int j;
 			tempdata = tutors;
-
+			auto starttime = high_resolution_clock::now();
 			for (int i = 1; i < length; i++) {
 				temp.TutorID = tempdata[i].TutorID;
 				temp.Name = tempdata[i].Name;
@@ -1606,7 +1607,7 @@ public:
 			Tutors temp;
 			int j;
 			tempdata = tutors;
-
+			auto starttime = high_resolution_clock::now();
 			for (int i = 1; i < length; i++) {
 				temp.TutorID = tempdata[i].TutorID;
 				temp.Name = tempdata[i].Name;
